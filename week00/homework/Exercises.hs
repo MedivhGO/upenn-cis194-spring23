@@ -15,7 +15,7 @@ When you save the file, the extra spaces before the 3 should disappear.
 -}
 
 format :: Int
-format =     3
+format = 3
 
 {-
 Exercise 2: The following code should have an underline and an hlint suggestion
