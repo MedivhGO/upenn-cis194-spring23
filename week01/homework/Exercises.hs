@@ -19,10 +19,10 @@ Hint: Use `mod` for the first function and `div` for the second.
 -}
 
 lastDigit :: Int -> Int
-lastDigit = error "unimplemented"
+lastDigit x = x `mod` 10
 
 dropLastDigit :: Int -> Int
-dropLastDigit = error "unimplemented"
+dropLastDigit x = x `div` 10
 
 {- Here, we have some tests written using Haskell's unit testing library.
    For example, the first one says the result of (lastDigit 1234) should be 4.
@@ -53,7 +53,7 @@ For zero or negative inputs, toRevDigits should return the empty list.
 -}
 
 toRevDigits :: Int -> [Int]
-toRevDigits = error "unimplemented"
+toRevDigits x =  if x <= 0 then [] else lastDigit x : toRevDigits (dropLastDigit x)
 
 exercise2 :: Test
 exercise2 =
@@ -70,7 +70,9 @@ double every other one from left to right. Fill in the function below:
 -}
 
 doubleEveryOther :: [Int] -> [Int]
-doubleEveryOther = error "unimplemented"
+doubleEveryOther [] = []
+doubleEveryOther [x] = [x]
+doubleEveryOther (x:y:xs) = x : (2 * y) : doubleEveryOther xs
 
 exercise3 :: Test
 exercise3 =
@@ -88,7 +90,9 @@ in a list of integers. Fill in the function below:
 -}
 
 sumDigits :: [Int] -> Int
-sumDigits = error "unimplemented"
+sumDigits (x:xs) = sum (toRevDigits x) + sumDigits xs
+sumDigits [] = 0
+
 
 exercise4 :: Test
 exercise4 =
@@ -107,7 +111,7 @@ you defined in previous exercises.
 -}
 
 validate :: Int -> Bool
-validate = error "unimplemented"
+validate x = sumDigits (doubleEveryOther (toRevDigits x)) `mod` 10 == 0
 
 exercise5 :: Test
 exercise5 =
@@ -123,7 +127,7 @@ comments, feel free to also write them here.
 -}
 
 time :: Double
-time = error "unimplemented"
+time = 30
 
 exercise6 :: Test
 exercise6 = TestCase (assertBool "fill in any time" (time >= 0))
