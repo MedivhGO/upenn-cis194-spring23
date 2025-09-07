@@ -19,7 +19,9 @@ data Nat
   deriving (Show, Eq)
 
 even :: Nat -> Bool
-even = error "unimplemented"
+even Z = True
+even (S Z) = False
+even (S (S n)) = even n
 
 exercise1a :: Test
 exercise1a =
