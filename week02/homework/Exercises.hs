@@ -33,7 +33,9 @@ exercise1a =
        ]
 
 max :: Nat -> Nat -> Nat
-max = error "unimplemented"
+max Z n = n
+max n Z = n
+max (S n) (S m) = S (max n m)
 
 exercise1b :: Test
 exercise1b =
