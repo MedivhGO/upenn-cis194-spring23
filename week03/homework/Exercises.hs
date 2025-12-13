@@ -9,7 +9,8 @@ import Prelude hiding (any, or)
 -- Exercise 1:
 
 or' :: [Bool] -> Bool
-or' = error "unimplemented"
+or' [] = False
+or' xs = foldr (||) False xs
 
 exercise1a :: Test
 exercise1a =
@@ -21,7 +22,7 @@ exercise1a =
        ]
 
 any' :: (a -> Bool) -> [a] -> Bool
-any' = error "unimplemented"
+any' f xs = or' (map f xs)
 
 exercise1b :: Test
 exercise1b =
@@ -33,7 +34,7 @@ exercise1b =
        ]
 
 any'' :: (a -> Bool) -> [a] -> Bool
-any'' = error "unimplemented"
+any'' f xs = foldr (\x acc -> f x || acc) False xs
 
 exercise1c :: Test
 exercise1c =
@@ -47,7 +48,7 @@ exercise1c =
 -- Exercise 2:
 
 silly :: String -> [String]
-silly = error "unimplemented"
+silly s = [ intersperse ',' w | w <- words s, not (any' (\c -> c == 'a' || c == 'A') w)]
 
 exercise2 :: Test
 exercise2 =
@@ -68,7 +69,7 @@ it took you to complete this homework. If you have any
 comments, feel free to also write them here. -}
 
 time :: Double
-time = error "unimplemented"
+time = 4
 
 checkTime :: Test
 checkTime = TestCase (assertBool "fill in any time" (time >= 0))

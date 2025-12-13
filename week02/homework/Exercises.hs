@@ -54,7 +54,9 @@ data Arith
   deriving (Show, Eq)
 
 eval :: Arith -> Int
-eval = error "unimplemented"
+eval (Num n) = n
+eval (Add a b) = eval a + eval b
+eval (Mul a b) = eval a * eval b
 
 exercise2a :: Test
 exercise2a =
@@ -65,7 +67,11 @@ exercise2a =
        ]
 
 opt0 :: Arith -> Arith
-opt0 = error "unimplemented"
+opt0 expr = case expr of
+  Add (Num 0) e -> opt0 e
+  Add e1 e2 -> Add (opt0 e1) (opt0 e2)
+  Mul e1 e2 -> Mul (opt0 e1) (opt0 e2)
+  Num n -> Num n
 
 exercise2b :: Test
 exercise2b =
@@ -84,9 +90,22 @@ data Empty
   Is it possible to write a function of type Empty -> Int?
   If so, write one! If not, briefly explain why. -}
 
+{-
+  ok
+-}
+
+emptyToInt :: Empty -> Int
+emptyToInt = undefined
+
 {- Question:
   Is it possible to write a function of type Int -> Empty?
   If so, write one! If not, briefly explain why. -}
+
+{-你无法诚实地实现 Int -> Empty，
+因为这要求你从有元素的集合映射到空集合，
+而这是数学上不可能的。任何"实现"要么欺骗类型系统，
+要么在运行时失败。
+-}
 
 ---- end of exercises ----
 
@@ -95,7 +114,7 @@ it took you to complete this homework. If you have any
 comments, feel free to also write them here. -}
 
 time :: Double
-time = error "unimplemented"
+time = 4
 
 checkTime :: Test
 checkTime = TestCase (assertBool "fill in any time" (time >= 0))
