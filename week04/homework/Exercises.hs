@@ -8,7 +8,9 @@ import Prelude hiding (concat, concatMap)
 -- Exercise 1:
 
 safeLast :: [a] -> Maybe a
-safeLast = error "unimplemented"
+safeLast [] = Nothing
+safeLast [x] = Just x
+safeLast (_ : xs) = safeLast xs
 
 exercise1 :: Test
 exercise1 =
@@ -21,7 +23,8 @@ exercise1 =
 -- Exercise 2:
 
 concat' :: [[a]] -> [a]
-concat' = error "unimplemented"
+concat' = foldr (++) []
+
 
 exercise2a :: Test
 exercise2a =
@@ -32,7 +35,7 @@ exercise2a =
        ]
 
 concatMap' :: (a -> [b]) -> [a] -> [b]
-concatMap' = error "unimplemented"
+concatMap' p = concat' . map p
 
 exercise2b :: Test
 exercise2b =
@@ -54,7 +57,7 @@ func (x : xs)
   | otherwise = func xs
 
 func' :: [Int] -> Int
-func' = error "unimplemented"
+func' = product . map (subtract  2) . filter even
 
 ---- end of exercises ----
 
@@ -63,7 +66,7 @@ it took you to complete this homework. If you have any
 comments, feel free to also write them here. -}
 
 time :: Double
-time = error "unimplemented"
+time = 4
 
 checkTime :: Test
 checkTime = TestCase (assertBool "fill in any time" (time >= 0))

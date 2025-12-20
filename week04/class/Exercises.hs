@@ -1,5 +1,7 @@
 module Exercises where
 
+import Prelude hiding (and)
+
 {-
 Exercise 1:
 
@@ -8,7 +10,10 @@ don't add to result. If returns (Just b), add b to the result.
 -}
 
 mapMaybe :: (a -> Maybe b) -> [a] -> [b]
-mapMaybe = error "unimplemented"
+mapMaybe _ [] = []
+mapMaybe f (x : xs) = case f x of
+    Just y -> y : mapMaybe f xs
+    Nothing -> mapMaybe f xs
 
 safeHead :: [a] -> Maybe a
 safeHead (x : _) = Just x
@@ -33,7 +38,7 @@ Try to write these as concisely as possible.
 -}
 
 and :: [Bool] -> Bool
-and = error "unimplemented"
+and = foldr (&&) True
 
 all :: (a -> Bool) -> [a] -> Bool
-all = error "unimplemented"
+all p = and . map p
