@@ -13,7 +13,9 @@ newtype Poly = P [Int]
 
 instance Eq Poly where
   (==) :: Poly -> Poly -> Bool
-  (==) = error "unimplemented"
+  (P xs) == (P ys) = normalize xs == normalize ys
+    where
+      normalize = reverse . dropWhile (== 0) . reverse
 
 exercise1 :: Test
 exercise1 =
@@ -125,7 +127,7 @@ it took you to complete this homework. If you have any
 comments, feel free to also write them here. -}
 
 time :: Double
-time = error "unimplemented"
+time = error 4
 
 checkTime :: Test
 checkTime = TestCase (assertBool "fill in any time" (time >= 0))
