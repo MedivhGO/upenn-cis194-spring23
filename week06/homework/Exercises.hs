@@ -30,8 +30,12 @@ exercise1 =
 -- Exercise 2
 
 instance Show Poly where
-  show :: Poly -> String
-  show = error "unimplemented"
+  show (P []) = "0"
+  show (P cs) = intercalate " + " (zipWith term [0..] cs)
+    where
+      term 0 a = show a
+      term 1 a = show a ++ "x"
+      term n a = show a ++ "x^" ++ show n
 
 exercise2 :: Test
 exercise2 =
@@ -53,12 +57,9 @@ instance Num Poly where
   (*) = times
 
   -- Implement these now.
+  negate (P cs) = P (map negate cs)
 
-  negate :: Poly -> Poly
-  negate = error "unimplemented"
-
-  fromInteger :: Integer -> Poly
-  fromInteger = error "unimplemented"
+  fromInteger n = P [ fromInteger n ]
 
   -- Leave these unimplemented;
   -- no meaningful definition exists.
@@ -86,8 +87,10 @@ exercise3b =
 
 -- Exercise 4
 
-plus :: Poly -> Poly -> Poly
-plus = error "unimplemented"
+plus (P cs1) (P cs2) = P (addCoeffs cs1 cs2) where
+  addCoeffs [] ys = ys
+  addCoeffs xs [] = xs
+  addCoeffs (x : xs) (y : ys) = (x + y) : addCoeffs xs ys
 
 exercise4 :: Test
 exercise4 =
@@ -101,7 +104,8 @@ exercise4 =
 -- Exercise 5
 
 times :: Poly -> Poly -> Poly
-times = error "unimplemented"
+times (P cs1) (P cs2) = foldr plus (P []) shiftedPolys where
+  shiftedPolys = [ P (replicate i 0 ++ map (c *) cs2) | (i, c) <- zip [0..] cs1]
 
 exercise5 :: Test
 exercise5 =
@@ -127,7 +131,7 @@ it took you to complete this homework. If you have any
 comments, feel free to also write them here. -}
 
 time :: Double
-time = error 4
+time = 40
 
 checkTime :: Test
 checkTime = TestCase (assertBool "fill in any time" (time >= 0))
@@ -142,7 +146,7 @@ have used hints on most or all of the problems.
 -}
 
 hints :: [Bool]
-hints = error "unimplemented" -- [False, False, False, False, False]
+hints = [False, False, False, False, False]
 
 checkHints :: Test
 checkHints = TestCase (assertBool "fill in hint info" (length hints == 5))
