@@ -59,7 +59,7 @@ it took you to complete this homework. If you have any
 comments, feel free to also write them here. -}
 
 time :: Double
-time = error "unimplemented"
+time = 30
 
 checkTime :: Test
 checkTime = TestCase (assertBool "fill in any time" (time >= 0))

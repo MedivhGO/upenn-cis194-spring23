@@ -15,23 +15,28 @@ prog = do
   return n
 
 prog' :: IO ()
-prog' = error "unimplemented"
+prog' =
+  putStr "Say something: " >>
+  getLine >>=
+  (\input -> print (length input * length input))
 
 -- Exercise 2
 
 q1 :: Bool
-q1 = error "unimplemented"
+q1 = True
 
 q2 :: Bool
-q2 = error "unimplemented"
+q2 = False
 
 q3 :: Bool
-q3 = error "unimplemented"
+q3 = True
 
 -- Exercise 3
 
 lengthFile :: FilePath -> IO Int
-lengthFile = error "unimplemented"
+lengthFile path = do
+  content <- readFile path
+  return (length content)
 
 exercise3a :: Test
 exercise3a =
@@ -42,7 +47,9 @@ exercise3a =
        ]
 
 concatFiles :: [FilePath] -> FilePath -> IO ()
-concatFiles = error "unimplemented"
+concatFiles inputs output = do
+  contents <- mapM readFile inputs
+  writeFile output (concat contents)
 
 exercise3b :: Test
 exercise3b =
@@ -55,14 +62,20 @@ exercise3b =
 
 -- Exercise 4
 
+-- putStr' = mapM_ putChar 没有显式参数是因为：
+-- mapM_ putChar 本身已经是一个函数（类型为 String -> IO ()）
+-- 这个函数可以直接赋值给 putStr'
+-- 调用时传入的字符串参数会自动传递给内部的函数
+-- 这是 Haskell 中常见的"点自由风格"编程方式
+
 putStr' :: String -> IO ()
-putStr' = error "unimplemented"
+putStr' = mapM_ putChar
 
 putStrLn' :: String -> IO ()
-putStrLn' = error "unimplemented"
+putStrLn' s = putStr' s >> putChar '\n'
 
 print' :: Show a => a -> IO ()
-print' = error "unimplemented"
+print' = putStrLn' . show
 
 ---- end of exercises ----
 
@@ -71,7 +84,7 @@ it took you to complete this homework. If you have any
 comments, feel free to also write them here. -}
 
 time :: Double
-time = error "unimplemented"
+time = 30
 
 checkTime :: Test
 checkTime = TestCase (assertBool "fill in any time" (time >= 0))
