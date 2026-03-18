@@ -11,10 +11,9 @@
 - [x] [week6]
 - [x] [week7]
 - [x] [week8]
-- [ ] [week9]
-- [ ] [week10]
-- [ ] [week11]
-- [ ] [week12]
+- [x] [week9]
+- [x] [week10]
+- [x] [week11]
 
 ## build haskell enviornment
 
