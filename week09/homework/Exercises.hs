@@ -15,7 +15,12 @@ isGood = isJust . go
   where
     -- go evaluates to (Just "") on success, or Nothing otherwise
     go :: String -> Maybe String
-    go = error "unimplemented"
+    go "" = return ""
+    go (c : rest) = do
+      n <- readMaybe [c]
+      guard (n >= 0)
+      afterAs <- stripPrefix (replicate n 'a') rest
+      go afterAs
 
 exercise1 :: Test
 exercise1 =
@@ -27,10 +32,14 @@ exercise1 =
 -- Exercise 2
 
 sumsTo :: Int -> [(Int, Int)]
-sumsTo = error "unimplemented"
+sumsTo n = do
+  x <- [0 .. n]
+  y <- [0 .. n]
+  guard (x + y == n)
+  return (x, y)
 
 sumsTo' :: Int -> [(Int, Int)]
-sumsTo' = error "unimplemented"
+sumsTo' n = [(x, y) | x <- [0 .. n], y <- [0 .. n], x + y == n]
 
 exercise2 :: Test
 exercise2 =
@@ -44,13 +53,19 @@ exercise2 =
 -- Exercise 3
 
 join :: Monad m => m (m a) -> m a
-join = error "unimplemented"
+join mmx = do
+  mx <- mmx
+  mx
 
 liftM :: Monad m => (a -> b) -> m a -> m b
-liftM = error "unimplemented"
+liftM f mx = do
+  x <- mx
+  return (f x)
 
 (>=>) :: Monad m => (a -> m b) -> (b -> m c) -> a -> m c
-(>=>) = error "unimplemented"
+f >=> g = \x -> do
+  y <- f x
+  g y
 
 ---- end of exercises ----
 
